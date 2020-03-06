@@ -1,0 +1,9 @@
+#map {
+    height: 90vh;
+}
+
+.bandeau {
+    display: flex;
+    flex-direction: row;
+    column-gap: 3rem;
+}

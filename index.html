@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Navitia Demo</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="scripts/script.js"></script>
+    <link rel="stylesheet" href="styles/style.css"/>
+</head>
+<body>
+
+<div class="bandeau">
+    <label>Latitude Départ : </label>
+    <input id="latdepart" value="48.8616202897821">
+    <label>Longitude Départ : </label>
+    <input id="longdepart" value="2.34803910830431">
+    <label>Latitude Arrivée : </label>
+    <input id="latarrivee" value="48.8167">
+    <label>Latitude Arrivée : </label>
+    <input id="longarrivee" value="2.4167">
+    <button onclick="handleClickSearch()">Search</button>
+
+</div>
+<span id="itineraire"></span>
+<div id="map"></div>
+</body>
+</html>
