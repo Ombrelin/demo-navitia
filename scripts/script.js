@@ -31,7 +31,7 @@ async function fetchNavitiaData() {
 
 
 async function handleClickSearch() {
-    const result = fetchNavitiaData();
+    const result = await fetchNavitiaData();
     console.log(result);
     // On enlève l'ancien chemin
     for(const chemin of window.chemins){
