@@ -31,35 +31,34 @@ async function fetchNavitiaData() {
 
 
 async function handleClickSearch() {
-    fetchNavitiaData().then(result => {
-            console.log(result);
-            // On enlève l'ancien chemin
-            for(const chemin of window.chemins){
-                window.mymap.removeLayer(chemin);
-            }
-            window.chemins = [];
-            const itineraire = document.querySelector("#itineraire");
-            itineraire.innerHTML = "";
-            for (const section of result.journeys[0].sections) {
-                let couleur;
-                try { // On essaye de recup la couleur
-                    couleur = "#" + section.display_informations.color;
-                } catch (erreur) { // Si ya pas de couleur (trajet à pied) on met un joli bleu
-                    couleur = "#0066CC";
-                }
-                let styleLigne = {"color": couleur, "weight": 10}; // Création du style de la layer avec la couleur du trajet
-
-                // On recup les infos textuelles pour écrire les instructions
-                if (section.from && section.display_informations && section.to && section.from.stop_point && section.to.stop_point) {
-                    itineraire.innerHTML += `${section.from.stop_point.name}`;
-                    itineraire.innerHTML += `==(${section.display_informations.network} ${section.display_informations.code})`;
-                    itineraire.innerHTML += `==> ${section.to.stop_point.name}|`;
-                }
-                let portionChemin = section.geojson;
-                let geojson = L.geoJSON(portionChemin, {style: styleLigne}); // On envoie le GeoJSON à Leaflet pour créer la layer de dessins
-                window.chemins.push(geojson); // On met la layer dans le tableau pour pouvoir l'effacer ensuite
-                geojson.addTo(window.mymap); // On ajoute la layer à leaflet
-            }
+    const result = fetchNavitiaData();
+    console.log(result);
+    // On enlève l'ancien chemin
+    for(const chemin of window.chemins){
+        window.mymap.removeLayer(chemin);
+    }
+    window.chemins = [];
+    const itineraire = document.querySelector("#itineraire");
+    itineraire.innerHTML = "";
+    for (const section of result.journeys[0].sections) {
+        let couleur;
+        try { // On essaye de recup la couleur
+            couleur = "#" + section.display_informations.color;
+        } catch (erreur) { // Si ya pas de couleur (trajet à pied) on met un joli bleu
+            couleur = "#0066CC";
         }
-    );
+        let styleLigne = {"color": couleur, "weight": 10}; // Création du style de la layer avec la couleur du trajet
+
+        // On recup les infos textuelles pour écrire les instructions
+        if (section.from && section.display_informations && section.to && section.from.stop_point && section.to.stop_point) {
+            itineraire.innerHTML += `${section.from.stop_point.name}`;
+            itineraire.innerHTML += `==(${section.display_informations.network} ${section.display_informations.code})`;
+            itineraire.innerHTML += `==> ${section.to.stop_point.name}|`;
+        }
+        let portionChemin = section.geojson;
+        let geojson = L.geoJSON(portionChemin, {style: styleLigne}); // On envoie le GeoJSON à Leaflet pour créer la layer de dessins
+        window.chemins.push(geojson); // On met la layer dans le tableau pour pouvoir l'effacer ensuite
+        geojson.addTo(window.mymap); // On ajoute la layer à leaflet
+    }
+}
 }
